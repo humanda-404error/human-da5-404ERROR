@@ -103,10 +103,20 @@ git add <충돌 해결된 파일>
 git commit -m "Merge conflict 해결"
 git push origin v1
 --------------------------------------------------------------------------------------------------------------------------------
+브랜치 작업
+git branch : 로컬 브랜치 확인
+git branch -r : 원격(깃헙) 브랜치 확인
+git branch -d v1 : 로컬 브랜치 삭제
+git branch -D v1 : 원격 브랜치 삭제
 
+git checkout main : 현재main 브랜치에서 작업중인지 체크
+git pull origin main : 최신 상태로 main브랜치 업데이트
+git checkout -b v1 : 새로운 v1 브랜치 생성 및 체크아웃
 
+git push origin v1 : 원격에 v1 브랜치 푸쉬
 
-
+get fetch origin : 원격 저장소에서 최신 정보 가져옴
+git checkout v1  : v1 브랜치로 이동
 
 
 

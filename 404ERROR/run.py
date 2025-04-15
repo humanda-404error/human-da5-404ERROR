@@ -1,16 +1,12 @@
-from flask import Flask
-from app.main.routes import main_bp
-from app.auth.routes import auth_bp
+from app import create_app
+from app.auth.routes import auth_bp  # auth 블루프린트 임포트
+from app.main.routes import main_bp  # main 블루프린트 임포트
 
-import secrets
+app, db = create_app()  # app과 db를 반환받습니다
 
-app = Flask(__name__, 
-            template_folder='app/main/templates',
-            static_folder='app/static')
-app.secret_key = secrets.token_hex(32)
-
-app.register_blueprint(main_bp)
+# auth 블루프린트와 main 블루프린트 등록
 app.register_blueprint(auth_bp)
+app.register_blueprint(main_bp)
 
 if __name__ == "__main__":
-    app.run(debug=True)  # debug=True로 실행하면 코드 수정 시 자동으로 서버가 재시작됩니다.
+    app.run(debug=True)  # 서버 실행

@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for
 import pandas as pd
+from app.models import Member  # Member 모델을 가져옵니다
+from app.auth.routes import get_db_connection 
 
 main_bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -35,6 +37,17 @@ def outlier():
 @main_bp.route('/explorer')
 def explorer():
     return render_template('explorer.html')
+
+@main_bp.route('/members')
+def members():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM members")
+    members = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('members.html', members=members)
+
 
 # @main_bp.route('/tables')
 # @main_bp.route('/tables')
