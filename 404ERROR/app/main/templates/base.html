@@ -1,3 +1,4 @@
+<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -20,25 +21,29 @@
         <a href="{{ url_for('main.outlier') }}">이상치 탐지</a>
         <a href="{{ url_for('main.explorer') }}">데이터 탐색</a>
         <a href="#">게시판</a>
+        <a href="#">...추가내용...</a>
         {% if logged_in %}
             <a href="{{ url_for('auth.logout') }}">Logout</a>
         {% endif %}
         <hr class="text-white">
-        <a href="#">Docs</a>
+        <!-- <a href="#">'<'DB test'>'</a> -->
+         DB TEST
+        <a href="{{ url_for('main.members') }}">DB_members test</a>
     </div>
 
     <!-- Main content -->
     <div class="flex-grow-1">
-        <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-            <!-- 여기에 상단 메뉴들 (채팅, 알람 등) 들어갈 수 있어 -->
+            <!-- 네비게이션 내용 그대로 -->
         </nav>
 
+        <!-- 페이지별 콘텐츠 삽입 -->
         <div class="container mt-4">
             {% block content %}{% endblock %}
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

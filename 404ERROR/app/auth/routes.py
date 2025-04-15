@@ -4,13 +4,13 @@ from werkzeug.security import check_password_hash
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-# MySQL 연결 함수
+# MySQL 연결 함수 (로컬 DB)
 def get_db_connection():
     connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="1234",
-        database="prj_404error"
+        host="192.168.0.62",  # 로컬 DB 서버
+        user="flaskuser",  # DB 사용자
+        password="1234",  # DB 비밀번호
+        database="prj_404error"  # DB 이름
     )
     return connection
 
@@ -21,29 +21,31 @@ def login():
         email = request.form['email']
         password = request.form['password']
         
-        # admin 계정 로그인 처리
+        # admin 계정 로그인 처리 (직접 입력된 관리자 계정)
         if email == 'admin' and password == '1234':
             session['user_id'] = 'admin'
             return redirect(url_for('main.index'))
         
-        # admin이 아닌 경우만 이메일 포맷 검사
+        # 이메일 포맷 검사 (일반 회원의 경우)
         if '@' not in email:
             return render_template('login.html', error="Invalid email format!")
         
         # 일반 회원 로그인 처리
         conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM members WHERE email = %s", (email,))
-        user = cursor.fetchone()
+        cursor = conn.cursor(dictionary=True)  # dictionary=True로 결과를 딕셔너리 형식으로 받음
+        cursor.execute("SELECT * FROM members WHERE email = %s", (email,))  # 이메일로 사용자 조회
+        user = cursor.fetchone()  # 하나의 사용자만 가져오기
         cursor.close()
         conn.close()
         
-        if user and check_password_hash(user['password'], password):
-            session['user_id'] = user['id']
-            return redirect(url_for('main.index'))
+        # 비밀번호 확인 후 로그인 처리
+        if user and check_password_hash(user['password'], password):  # 비밀번호 확인
+            session['user_id'] = user['id']  # 세션에 사용자 ID 저장
+            return redirect(url_for('main.index'))  # 로그인 후 메인 페이지로 리디렉션
         else:
-            return render_template('login.html', error="Invalid login credentials!")
+            return render_template('login.html', error="Invalid login credentials!")  # 로그인 실패시 오류 메시지 표시
 
+    # GET 요청 시 로그인 페이지 렌더링
     return render_template('login.html')
 
 
