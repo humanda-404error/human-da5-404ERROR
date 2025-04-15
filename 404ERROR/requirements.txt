@@ -1,0 +1,11 @@
+pandas
+matplotlib
+flask
+flask_login
+flask_migrate
+flask_sqlalchemy
+mysql-connector-python
+requests
+beautifulsoup4
+pymysql
+chardet

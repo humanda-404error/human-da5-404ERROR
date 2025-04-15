@@ -1,0 +1,6 @@
+NAME	FILENAME				SOURCE
+소형섭	LOCAL_PEOPLE_GU_2020			서울 열린데이터광장
+소형섭	SURFACE_ASOS_108_DAY_2024_2024_2025	기상청 기상자료개방포털
+소형섭	서울시_자치구_중심점_2017			공공데이터포털
+이훈기	BUS_STATION_BOARDING_MONTH_202001	서울 열린데이터광장
+정상철	CARD_SUBWAY_MONTH_2020		공공데이터포털,  서울 열린데이터광장	

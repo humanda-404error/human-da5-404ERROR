@@ -1,0 +1,51 @@
+
+index.html
+
+login.html
+	로그인x	- index.html - chart기능, +etc 기능 사용x 
+	로그인o	- index.html - 모든기능 사용가능
+
+로그인정보는 prj_404error schema의 members 테이블에서 참조 (관리자 : admin 비밀번호 : 1234 )
+
+import mysql.connector
+
+# MySQL 데이터베이스에 연결
+connection = mysql.connector.connect(
+    host="192.168.0.62",         # MySQL 서버 호스트 cmd - ipconfig
+    user="admin",   # MySQL 사용자
+    password="1234", # MySQL 비밀번호
+    database="prj_404error"   # 사용할 데이터베이스 이름
+)
+
+cursor = connection.cursor()
+
+# 쿼리 실행 (예: members 테이블에서 모든 데이터 조회)
+cursor.execute("SELECT * FROM members")
+
+# 결과 가져오기
+result = cursor.fetchall()
+for row in result:
+    print(row)
+
+# 연결 종료
+cursor.close()
+connection.close()
+
+GRANT ALL PRIVILEGES ON prj_404error.* TO 'your_mysql_user'@'%' IDENTIFIED BY 'your_password';
+
+이제 됐어 login.html
+	로그인x	- index.html - chart기능, +etc 기능 사용x 
+	로그인o	- index.html - 모든기능 사용가능
+
+로그인정보는 prj_404error schema의 members 테이블에서 참조 (관리자 : admin 비밀번호 : 1234 )
+이렇게 할거야
+파일구조는 다음과 같아
+404ERROR\run.py 를 실행하면
+404ERROR\app\main\login.html 을 실행해서 로그인 정보를 확인하고
+로그인이 안되면 다시 로그인을 하고 로그인이 되면 
+404ERROR\app\main\index.html 에서 모든 기능을 사용할수있어
+하지만 로그인없이 index.html에 들어갈수있는데 이땐 chart기능 및 몇가지 기능들을 볼 수 가 없어 이때 이 기능을 누르면 로그인후 사용가능합니다 알람이 나와야돼
+인증에 관한 부분은
+404ERROR\app\auth 에서 처리할거야
+main쪽 폴더에 접속하는건 
+404ERROR\app\main\routes.py 에서 관리해

@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" version="26.2.12">
+  <diagram name="페이지-1" id="0BbUe7Z2XenvCnofa-T0">
+    <mxGraphModel dx="788" dy="729" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-1" value="login.html" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-2" value="main.html&lt;div&gt;welcome message&lt;br&gt;이후 자동으로 dashboard.html 이동&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-3" value="logo누르면&lt;div&gt;dashboard.html이동&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-4" value="&lt;div&gt;&amp;lt;Dashboard&amp;gt;&lt;/div&gt;dashboard.html" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-5" value="&amp;lt;자치구별 분석&amp;gt;&lt;div&gt;district.html&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-6" value="&amp;lt;날씨영향 분석&amp;gt;&lt;div&gt;weather.html&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-7" value="&amp;lt;비교 분석&amp;gt;&lt;div&gt;compare.html&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-8" value="&amp;lt;이상치 탐지&amp;gt;&lt;div&gt;outlier.html&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-9" value="&amp;lt;데이터 탐색&amp;gt;&lt;div&gt;explorer&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="524.5" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-10" value="... 추가내용 ..." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="600" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-11" value="login/logout" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="680" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-12" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="UmtQ1zrUC5gFcIBr5Xf5-2" target="UmtQ1zrUC5gFcIBr5Xf5-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="120" as="sourcePoint" />
+            <mxPoint x="320" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-14" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="UmtQ1zrUC5gFcIBr5Xf5-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="390" as="sourcePoint" />
+            <mxPoint x="330" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-16" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="UmtQ1zrUC5gFcIBr5Xf5-2" target="UmtQ1zrUC5gFcIBr5Xf5-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="310" as="sourcePoint" />
+            <mxPoint x="380" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-17" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="UmtQ1zrUC5gFcIBr5Xf5-2" target="UmtQ1zrUC5gFcIBr5Xf5-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="390" as="sourcePoint" />
+            <mxPoint x="380" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-18" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" target="UmtQ1zrUC5gFcIBr5Xf5-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="390" as="sourcePoint" />
+            <mxPoint x="330" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-19" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="UmtQ1zrUC5gFcIBr5Xf5-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="390" as="sourcePoint" />
+            <mxPoint x="330" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-20" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="UmtQ1zrUC5gFcIBr5Xf5-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="390" as="sourcePoint" />
+            <mxPoint x="330" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-21" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="UmtQ1zrUC5gFcIBr5Xf5-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="380" as="sourcePoint" />
+            <mxPoint x="330" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-22" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="UmtQ1zrUC5gFcIBr5Xf5-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="390" as="sourcePoint" />
+            <mxPoint x="330" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-23" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="UmtQ1zrUC5gFcIBr5Xf5-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="120" y="390" as="sourcePoint" />
+            <mxPoint x="170" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-24" value="dashboard.html" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="50" width="330" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-28" value="1. 총 사용자, 로그인 사용자 보여주기&amp;nbsp;&lt;div&gt;-prj_404error schema,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;members table&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;2. 서울 각 자치구별 지도 시각화&lt;/div&gt;&lt;div style=&quot;&quot;&gt;-3차원 막대그래프로 이용량 트렌드 표시&lt;/div&gt;&lt;div style=&quot;&quot;&gt;-Leaflet.js, Mapbox, Highcharts Map... etc&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;3. 시간흐름에 따른 교통량 및 날씨 트렌드 년도/월별 이용량&lt;/div&gt;&lt;div style=&quot;&quot;&gt;-Chart.js, Recharts, Echarts, Plotly..etc&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;4. 날씨 조건별 이용량 분석(맑음/비/눈, 기온구간별&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;5. 자치구 상세분석&lt;/div&gt;&lt;div style=&quot;&quot;&gt;-로그인x시 로그인후 이용가능합니다. 기능&lt;/div&gt;&lt;div style=&quot;&quot;&gt;-로그인o시 [상세분석하기] - district.html 이동&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;6. 이벤트/이상치분석&lt;/div&gt;&lt;div style=&quot;&quot;&gt;-로그인x시 로그인후 이용가능합니다. 기능&lt;/div&gt;&lt;div style=&quot;&quot;&gt;-로그인o시 [상세분석하기] outlier.html 이동&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="UmtQ1zrUC5gFcIBr5Xf5-24">
+          <mxGeometry y="30" width="330" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-33" value="district.html" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="450" width="330" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="UmtQ1zrUC5gFcIBr5Xf5-34" value="1. 서울 전체 지도 (지역구로 분리) 띄어주기&lt;div&gt;&lt;br&gt;&lt;div&gt;- 서울 각 구에 마우스를 올리면 [&quot;구&quot; 이름]을 옆에 띄어주고 &quot;분석하려면 클릭&quot; 알람메세지 보여주기&lt;/div&gt;&lt;div&gt;-클릭을 하면 조건에 맞는 입력을 한 후 서울 전체 지도 아래에 분석한 결과를 보여줌&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="UmtQ1zrUC5gFcIBr5Xf5-33">
+          <mxGeometry y="30" width="330" height="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
