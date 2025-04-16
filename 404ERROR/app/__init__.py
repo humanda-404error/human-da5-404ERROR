@@ -1,11 +1,10 @@
 # app/__init__.py
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from app.extensions import db
 import secrets
 import os
-
-db = SQLAlchemy()  # db 객체를 전역으로 선언
+from app.models import Member, Notice, Update, Weather, Population, Train, Bus  # 모델 불러오기
 
 # 앱 생성 함수
 def create_app():
@@ -21,5 +20,15 @@ def create_app():
     from app.main.commons import common_routes  # 라우트 포함한 모듈들 import만 해도 OK
 
     db.init_app(app)  # db 초기화
+
+    @app.context_processor
+    def inject_user_info():
+        from flask import session
+        from app.models import Member
+        if 'user_id' in session:
+            user = Member.query.filter_by(id=session['user_id']).first()
+            if user:
+                return dict(current_user=user)
+        return dict(current_user=None)
 
     return app, db

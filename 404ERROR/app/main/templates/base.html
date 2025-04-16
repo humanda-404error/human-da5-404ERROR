@@ -33,12 +33,41 @@
         <a href="{{ url_for('main.members') }}">hot issue</a>
          DB TEST(관리자전용)
         <a href="{{ url_for('main.members') }}">DB_members test</a>
+        <a href="{{ url_for('main.db_train') }}">DB_train table</a>
+        <a href="{{ url_for('main.db_bus') }}">DB_bus table</a>
+        <a href="{{ url_for('main.db_weather') }}">DB_weather table</a>
+        <a href="{{ url_for('main.db_population') }}">DB_population table</a>
     </div>
 
     <!-- Main content -->
     <div class="flex-grow-1">
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-            <!-- 네비게이션 내용 그대로 -->
+            <!-- 네비게이션 바 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">404ERROR</a>
+
+        <div class="d-flex ms-auto align-items-center gap-3">
+            {% if session.user_id %}
+                <!-- 알림 및 회원정보 -->
+                <span class="text-white">
+                    닉네임: {{ current_user.nickname }} /
+                    등급: {{ current_user.grade }} /
+                    포인트: {{ current_user.points }}
+                </span>
+
+                <!-- 실시간 채팅 -->
+                <a href="{{ url_for('main.chat') }}" class="btn btn-sm btn-outline-light">실시간채팅</a>
+
+                <!-- 회원정보 수정 -->
+                <a href="{{ url_for('main.profile_edit') }}" class="btn btn-sm btn-outline-light">회원정보 변경</a>
+
+                <!-- 고객센터 -->
+                <a href="{{ url_for('main.support') }}" class="btn btn-sm btn-outline-light">고객센터</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
         </nav>
 
         <!-- 페이지별 콘텐츠 삽입 -->

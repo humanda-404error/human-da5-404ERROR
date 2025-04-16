@@ -23,7 +23,10 @@ def login():
         
         # admin 계정 로그인 처리 (직접 입력된 관리자 계정)
         if email == 'admin' and password == '1234':
-            session['user_id'] = 'admin'
+            session['user_id'] = 1  # 실제 DB상의 admin id
+            session['nickname'] = '관리자'
+            session['grade'] = '관리자'
+            session['points'] = 99999
             return redirect(url_for('main.index'))
         
         # 이메일 포맷 검사 (일반 회원의 경우)
@@ -40,7 +43,10 @@ def login():
         
         # 비밀번호 확인 후 로그인 처리
         if user and check_password_hash(user['password'], password):  # 비밀번호 확인
-            session['user_id'] = user['id']  # 세션에 사용자 ID 저장
+            session['user_id'] = user['id']
+            session['grade'] = user['grade']
+            session['points'] = user['points']
+            session['nickname'] = user['nickname']
             return redirect(url_for('main.index'))  # 로그인 후 메인 페이지로 리디렉션
         else:
             return render_template('login.html', error="Invalid login credentials!")  # 로그인 실패시 오류 메시지 표시
@@ -53,4 +59,5 @@ def login():
 @auth_bp.route('/logout')
 def logout():
     session.pop('user_id', None)  # 세션에서 사용자 정보 제거
+    session.clear()
     return redirect(url_for('auth.login'))  # 로그인 페이지로 리디렉션
