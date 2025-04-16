@@ -18,6 +18,7 @@ class Member(db.Model):
         return f'<Member {self.username}>'
     
 class Notice(db.Model):
+    __tablename__ = 'notices'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=False)
@@ -29,6 +30,7 @@ class Notice(db.Model):
         return f'<Notice {self.title}>'
 
 class Update(db.Model):
+    __tablename__ = 'updates'
     id = db.Column(db.Integer, primary_key=True)
     version = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=False)

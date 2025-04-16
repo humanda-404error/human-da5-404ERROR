@@ -3,13 +3,67 @@ from app.auth.routes import get_db_connection
 from app.main.blueprint import main_bp
 from app.models import Member, Notice, Update, Weather, Population, Train, Bus
 
-def register_common_routes(main_bp):  
+import requests
+from bs4 import BeautifulSoup
+
+def register_common_routes(main_bp):
+    @main_bp.route('/main')
+    @main_bp.route('/main')
+    def main():
+        notices = Notice.query.order_by(Notice.created_at.desc()).limit(5).all()
+        updates = Update.query.order_by(Update.release_date.desc()).limit(5).all()
+        member_count = Member.query.count()
+
+        # 크롤링된 hot issue 데이터
+        hot_issues = get_hot_issues()  # ["이슈1", "이슈2", ...] 형태 리스트여야 함
+
+        return render_template(
+            'common/main.html',
+            notices=notices if notices else [],
+            updates=updates if updates else [],
+            member_count=member_count if member_count > 0 else [],
+            hot_issues=hot_issues if hot_issues else []  # None 대신 빈 리스트로 기본값 설정
+        )
+
+    def get_hot_issues():
+        try:
+            url = "https://www.bigkinds.or.kr/"
+            res = requests.get(url)
+            res.raise_for_status()  # 요청에 실패하면 예외 발생
+
+            soup = BeautifulSoup(res.text, 'html.parser')
+
+            # <a> 태그에서 'data-topic' 속성 값을 추출
+            issue_elements = soup.find_all('a', class_='issupop-btn')
+
+            # 'data-topic' 속성에서 이슈 제목만 추출
+            issues = [element.get('data-topic') for element in issue_elements if element.get('data-topic')]
+
+            return issues[:5]  # 첫 5개 이슈만 반환
+
+        except requests.exceptions.RequestException as e:
+            print(f"크롤링 중 오류 발생: {e}")
+            return []  # 예외 발생 시 빈 리스트 반환
+        
     @main_bp.route('/')
     def index():
-            if 'user_id' not in session:
-                return redirect(url_for('auth.login'))  # 로그인 안했으면 로그인으로 보내기
-            return render_template('common/main.html', logged_in=True)
-    
+        if 'user_id' not in session:
+            return redirect(url_for('auth.login'))
+
+        notices = Notice.query.order_by(Notice.created_at.desc()).limit(5).all()
+        updates = Update.query.order_by(Update.release_date.desc()).limit(5).all()
+        member_count = Member.query.count()
+        hot_issues = get_hot_issues()
+
+        return render_template(
+            'common/main.html',
+            logged_in=True,
+            notices=notices if notices else [],
+            updates=updates if updates else [],
+            member_count=member_count if member_count > 0 else [],
+            hot_issues=hot_issues if hot_issues else []
+        )
+
     @main_bp.route('/members')
     def members():
         conn = get_db_connection()
