@@ -8,7 +8,7 @@ def register_common_routes(main_bp):
     def index():
             if 'user_id' not in session:
                 return redirect(url_for('auth.login'))  # 로그인 안했으면 로그인으로 보내기
-            return render_template('main.html', logged_in=True)
+            return render_template('common/main.html', logged_in=True)
     
     @main_bp.route('/members')
     def members():
@@ -18,7 +18,7 @@ def register_common_routes(main_bp):
         members = cursor.fetchall()
         cursor.close()
         conn.close()
-        return render_template('members.html', members=members)
+        return render_template('DB_static/DB_members.html', members=members)
 
 
     @main_bp.route('/db_train')
@@ -28,7 +28,7 @@ def register_common_routes(main_bp):
 
         trains = Train.query.paginate(page=page, per_page=per_page, error_out=False)
 
-        return render_template('DB_train.html', trains=trains)
+        return render_template('DB_static/DB_train.html', trains=trains)
     
     @main_bp.route('/db_bus')
     def db_bus():
@@ -37,7 +37,7 @@ def register_common_routes(main_bp):
 
         buses = Bus.query.paginate(page=page, per_page=per_page, error_out=False)
 
-        return render_template('DB_bus.html', buses=buses)
+        return render_template('DB_static/DB_bus.html', buses=buses)
 
     @main_bp.route('/db_weather')
     def db_weather():
@@ -46,7 +46,7 @@ def register_common_routes(main_bp):
 
         weather_data = Weather.query.paginate(page=page, per_page=per_page, error_out=False)
 
-        return render_template('DB_weather.html', weather_data=weather_data)
+        return render_template('DB_static/DB_weather.html', weather_data=weather_data)
 
     @main_bp.route('/db_population')
     def db_population():
@@ -55,5 +55,5 @@ def register_common_routes(main_bp):
 
         populations = Population.query.paginate(page=page, per_page=per_page, error_out=False)
 
-        return render_template('DB_population.html', populations=populations)
+        return render_template('DB_static/DB_population.html', populations=populations)
 

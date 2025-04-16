@@ -6,11 +6,11 @@ from app.models import Member, Notice, Update, Weather, Population, Train
 def register_JSC_routes(main_bp): 
     @main_bp.route('/dashboard')
     def dashboard():
-        return render_template('dashboard.html')
+        return render_template('JSC/dashboard.html')
     
     @main_bp.route('/district')
     def district():
-        return render_template('district.html')
+        return render_template('JSC/district.html')
     
     #@...
     

@@ -31,7 +31,7 @@ def login():
         
         # 이메일 포맷 검사 (일반 회원의 경우)
         if '@' not in email:
-            return render_template('login.html', error="Invalid email format!")
+            return render_template('LHK/login.html', error="Invalid email format!")
         
         # 일반 회원 로그인 처리
         conn = get_db_connection()
@@ -49,10 +49,10 @@ def login():
             session['nickname'] = user['nickname']
             return redirect(url_for('main.index'))  # 로그인 후 메인 페이지로 리디렉션
         else:
-            return render_template('login.html', error="Invalid login credentials!")  # 로그인 실패시 오류 메시지 표시
+            return render_template('LHK/login.html', error="Invalid login credentials!")  # 로그인 실패시 오류 메시지 표시
 
     # GET 요청 시 로그인 페이지 렌더링
-    return render_template('login.html')
+    return render_template('LHK/login.html')
 
 
 # 로그아웃 처리
