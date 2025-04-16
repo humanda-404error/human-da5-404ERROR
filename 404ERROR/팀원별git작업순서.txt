@@ -1,3 +1,6 @@
+****가상환경설정
+conda create -n miniproject python=3.11
+
 ****git 초기화
 rm -rf .git 
 git init
