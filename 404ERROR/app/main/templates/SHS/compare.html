@@ -1,7 +1,15 @@
-{% extends '../common/base.html' %}
+{% extends 'common/base.html' %}
 
 {% block title %}비교 분석{% endblock %}
 
 {% block content %}
-    <h2>비교 분석 내용입니다</h2>
+<div class="container">
+  <h2>🚇 코로나 시기별 교통량 변화 분석</h2>
+  <p><strong>ANOVA p-value:</strong> {{ p_val }}  
+     {% if p_val < 0.05 %}<span style="color:green;">→ 유의미한 차이 있음</span>
+     {% else %}<span style="color:red;">→ 통계적으로 유의미하지 않음</span>
+     {% endif %}
+  </p>
+  <img src="{{ plot_url }}" alt="시기별 교통량 그래프" style="max-width:100%;">
+</div>
 {% endblock %}

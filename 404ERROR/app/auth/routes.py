@@ -10,7 +10,8 @@ def get_db_connection():
         host="192.168.0.62",  # 로컬 DB 서버
         user="flaskuser",  # DB 사용자
         password="1234",  # DB 비밀번호
-        database="prj_404error"  # DB 이름
+        database="prj_404error",  # DB 이름
+        auth_plugin="caching_sha2_password"
     )
     return connection
 
