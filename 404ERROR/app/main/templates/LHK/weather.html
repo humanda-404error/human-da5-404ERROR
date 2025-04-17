@@ -3,5 +3,41 @@
 {% block title %}날씨영향 분석{% endblock %}
 
 {% block content %}
-    <h2>날씨영향 분석내용입니다</h2>
+    <h6>날씨영향 분석내용입니다</h6>
+    <form method="POST" action="{{ url_for('main.weather') }}">
+        <label for="gu">자치구 선택:</label>
+        <select name="gu" id="gu">
+            {% for gu in gu_list %}
+                <option value="{{ gu }}" {% if gu == selected_gu %} selected {% endif %}>{{ gu }}</option>
+            {% endfor %}
+        </select>
+        {% if selected_gu %}
+            <button type="submit" disabled>분석하기</button> 
+        {% else %}
+            <button type="submit">분석하기</button>
+        {% endif %}
+    </form>
+
+    {% if plot_img %}
+    <img src = 'data:image/png;base64,{{ plot_img }}'>
+    {% endif %}
+
+    <script>
+        const guSelect = document.getElementById("gu");
+        const submitBtn = document.querySelector("button[type='submit']");
+        const initialGu = "{{ selected_gu or '' }}";
+    
+        guSelect.addEventListener("change", () => {
+            if (guSelect.value === initialGu) {
+                submitBtn.disabled = true;
+            } else {
+                submitBtn.disabled = false;
+            }
+        });
+    
+        // 페이지 로딩 시 초기 상태 반영
+        if (guSelect.value === initialGu && initialGu !== '') {
+            submitBtn.disabled = true;
+        }
+    </script>
 {% endblock %}
