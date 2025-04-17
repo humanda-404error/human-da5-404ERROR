@@ -25,6 +25,7 @@ def login():
         # admin 계정 로그인 처리 (직접 입력된 관리자 계정)
         if email == 'admin' and password == '1234':
             session['user_id'] = 1  # 실제 DB상의 admin id
+            session['email'] = 'admin'
             session['nickname'] = '관리자'
             session['grade'] = '관리자'
             session['points'] = 99999
@@ -45,6 +46,7 @@ def login():
         # 비밀번호 확인 후 로그인 처리
         if user and check_password_hash(user['password'], password):  # 비밀번호 확인
             session['user_id'] = user['id']
+            session['email'] = user['email']
             session['grade'] = user['grade']
             session['points'] = user['points']
             session['nickname'] = user['nickname']

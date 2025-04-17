@@ -1,11 +1,15 @@
 ******소형섭
 20250416
-    app/main/commons/common_routes.py
-    app/main/JSC/JSC_routes.py
-    app/main/LHK/LHK_routes.py
-    app/main/SHS/SHS_routes.py 
-    라우트쪽 코드 분리화 작업
+	app/main/commons/common_routes.py
+    	app/main/JSC/JSC_routes.py
+    	app/main/LHK/LHK_routes.py
+    	app/main/SHS/SHS_routes.py 
+    	라우트 및 HTML쪽 코드 분리화 작업
 
+오후 1:53 2025-04-17
+	1. HTML 폼처리
+	2. 데이터검정셋 넣어서 데이터 시각화
+	3. 오류체크 및 UI다듬기
 ******이훈기
 
 ******정상철

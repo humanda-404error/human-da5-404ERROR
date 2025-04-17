@@ -12,3 +12,6 @@ chardet
 mysqlclient
 scipy
 seaborn
+statsmodels
+dash
+plotly

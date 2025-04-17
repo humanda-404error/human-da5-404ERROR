@@ -3,13 +3,154 @@
 {% block title %}비교 분석{% endblock %}
 
 {% block content %}
+
 <div class="container">
-  <h2>🚇 코로나 시기별 교통량 변화 분석</h2>
-  <p><strong>ANOVA p-value:</strong> {{ p_val }}  
-     {% if p_val < 0.05 %}<span style="color:green;">→ 유의미한 차이 있음</span>
-     {% else %}<span style="color:red;">→ 통계적으로 유의미하지 않음</span>
-     {% endif %}
-  </p>
-  <img src="{{ plot_url }}" alt="시기별 교통량 그래프" style="max-width:100%;">
+  <h2>연도별 교통·날씨·인구 분석</h2>
+
+  <!-- 데이터 보기 폼 -->
+  <form method="GET" action="/compare" onsubmit="return validateDateRange()">
+    <p><strong>2020.01.01 ~ 2024.12.31 까지 선택 가능합니다.</strong></p>
+
+    <label for="start_date">시작일:</label>
+    <input type="date" min="2020-01-01" max="2024-12-31" 
+           id="start_date" name="start_date" value="{{ start_date or '' }}" required>
+  
+    <label for="end_date">종료일:</label>
+    <input type="date" min="2020-01-01" max="2024-12-31" 
+           id="end_date" name="end_date" value="{{ end_date or '' }}" required>
+
+    <button type="submit">데이터 보기</button>
+  </form>
+
+  <!-- 데이터 분석 버튼 -->
+  <button onclick="showAnalysisOptions()" class="btn btn-primary" style="margin-top:10px;">데이터 분석</button>
+
+  <div class="graphs" style="margin-top:20px;">
+    <h4>날씨 그래프</h4>
+    <img src="{{ url_for('static', filename='img/SHS/weather_plot.png') }}" alt="날씨 그래프" style="max-width:100%;">
+
+    <h4>지하철 이용량</h4>
+    <img src="{{ url_for('static', filename='img/SHS/subway_plot.png') }}" alt="지하철 그래프" style="max-width:100%;">
+
+    <h4>버스 이용량</h4>
+    <img src="{{ url_for('static', filename='img/SHS/bus_plot.png') }}" alt="버스 그래프" style="max-width:100%;">
+
+    <h4>생활 인구</h4>
+    <img src="{{ url_for('static', filename='img/SHS/pop_plot.png') }}" alt="인구 그래프" style="max-width:100%;">
+  </div>
+
+  <div id="analysis-result" style="margin-top: 40px;">
+    <h4>분석 결과</h4>
+    <p><strong>분석 조건:</strong> {{ analysis_result.conditions | join(', ') }}</p>
+    
+    {% if analysis_result.result_imgs %}
+      {% for img_path in analysis_result.result_imgs %}
+        <img src="{{ url_for('static', filename=img_path) }}" alt="분석 그래프" style="max-width:100%; margin-bottom:20px;">
+      {% endfor %}
+    {% endif %}
+
+    <div id="analysis-details">
+      {{ analysis_result.result_html | safe }}
+    </div>
+    <!-- 버튼 -->
+    <div class="mt-3">
+      {% if session.grade in ['VIP', '관리자'] %}
+      <a href="{{ url_for('main.compare', 
+                          start_date=start_date, 
+                          end_date=end_date, 
+                          method=analysis_result.method, 
+                          dataset=analysis_result.conditions, 
+                          advanced=1) }}" 
+         class="btn btn-success">[추가분석]</a>
+        <span class="badge bg-info">VIP 이상 이용 가능</span>
+      {% else %}
+        <button class="btn btn-outline-danger" onclick="alert('VIP 등급 이상만 가능합니다')">[추가분석]</button>
+      {% endif %}
+    </div>
+    {% if advanced %}
+    <div class="mt-4">
+      <h4>추가 분석 결과</h4>
+      {% for img in barplot_imgs %}
+        <img src="{{ url_for('static', filename=img) }}" style="max-width:100%; margin-bottom:15px;">
+      {% endfor %}
+      {% for result in tukey_result %}
+        {{ result | safe }}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
 </div>
+
+<!-- 모달: 분석 옵션 선택 -->
+<div id="analysisModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:white; padding:20px; border:1px solid #ccc; box-shadow:0 0 10px rgba(0,0,0,0.2); z-index:9999;">
+  <h4>세부 분석 선택</h4>
+  <label for="analysis-method">검정 기법:</label>
+  <select id="analysis-method" required>
+    <option value="">-- 선택 --</option>
+    <option value="ANOVA">ANOVA</option>
+    <option value="ANCOVA">ANCOVA</option>
+    <option value="MANOVA">MANOVA</option>
+    <option value="MixedEffects">Mixed Effects</option>
+    <option value="Regression">회귀분석</option>
+    <option value="Correlation">상관분석</option>
+  </select>
+  <br><br>
+  <p><strong>분석 대상:</strong></p>
+  <label><input type="checkbox" name="dataset" value="지하철"> 지하철</label>
+  <label><input type="checkbox" name="dataset" value="버스"> 버스</label>
+  <label><input type="checkbox" name="dataset" value="인구"> 인구</label>
+  <label><input type="checkbox" name="dataset" value="날씨"> 날씨</label>
+  <br><br>
+  <button onclick="submitAnalysis()" class="btn btn-success">확인</button>
+  <button onclick="closeModal()" class="btn btn-secondary">취소</button>
+</div>
+
+<script>
+function validateDateRange() {
+  const start = document.getElementById("start_date").value;
+  const end = document.getElementById("end_date").value;
+  if (start && end && start > end) {
+    alert("종료일은 시작일보다 같거나 이후여야 합니다.");
+    return false;
+  }
+  return true;
+}
+
+function showAnalysisOptions() {
+  document.getElementById("analysisModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("analysisModal").style.display = "none";
+}
+
+function submitAnalysis() {
+  const method = document.getElementById("analysis-method").value;
+  const checkboxes = document.querySelectorAll('input[name="dataset"]:checked');
+  const datasets = Array.from(checkboxes).map(cb => cb.value);
+
+  if (!method) {
+    alert("검정 기법을 선택해주세요.");
+    return;
+  }
+
+  if (datasets.length === 0) {
+    alert("최소 하나 이상의 데이터셋을 선택해주세요.");
+    return;
+  }
+
+  // 날짜 값 가져오기
+  const start = document.getElementById("start_date").value;
+  const end = document.getElementById("end_date").value;
+
+  const query = new URLSearchParams();
+  query.append('start_date', start);
+  query.append('end_date', end);
+  query.append('method', method);
+  datasets.forEach(d => query.append('dataset', d));
+
+  window.location.href = "/compare?" + query.toString();
+}
+</script>
+
 {% endblock %}
