@@ -1,25 +1,36 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="POST">
-        <label for="email">Email:</label>
-        <input type="text" name="email" required><br><br>
+{% extends "LHK/auth_base.html" %}
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" required><br><br>
+{% block title %} 로그인 {% endblock %}
 
-        <button type="submit">Login</button>
-    </form>
+{% block form %}
+<form method="POST">
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="text" class="form-control" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" required>
+    </div>
 
     {% if error %}
-    <p style="color: red;">{{ error }}</p>
+    <div class="alert text-center py-2" role="alert">
+        {{ error }}
+    </div>
     {% endif %}
-</body>
-</html>
+
+    <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-primary">로그인</button>
+    </div>
+</form>
+
+<div class="extra-buttons">
+    <a href="{{ url_for('main.signup') }}" class="btn btn-link px-0">회원가입</a>
+    <a href="#" class="btn btn-link px-0">ID / PW 찾기</a>
+</div>
+
+<div class="go-home">
+    <a href="{{ url_for('main.forcing_main') }}">메인 홈으로 이동</a>
+</div>
+{% endblock %}
+

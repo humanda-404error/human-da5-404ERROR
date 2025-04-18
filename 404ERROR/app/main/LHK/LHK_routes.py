@@ -13,6 +13,7 @@ import requests
 from xml.etree import ElementTree
 from scipy.stats import ttest_ind
 import seaborn as sns
+from werkzeug.security import generate_password_hash
 
 all_holidays = None
 
@@ -265,7 +266,46 @@ def register_LHK_routes(main_bp):
     
     @main_bp.route('/profile_edit')
     def profile_edit():
-        return render_template('LHK/profile_edit.html') 
+        return render_template('LHK/profile_edit.html')
     
+    @main_bp.route('/signup', methods=['GET', 'POST'])
+    def signup():
+        if request.method == "POST":
+            email = request.form['email']
+            password = request.form['password']
+            confirm = request.form['confirm']
+            nickname = request.form['nickname']
+
+            if '@' not in email:
+                return render_template('LHK/signup.html', error="올바른 이메일 형식을 입력해주세요.")
+            if password != confirm:
+                return render_template('LHK/signup.html', error="비밀번호가 일치하지 않습니다.")
+            
+            conn = get_db_connection()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM members WHERE email = %s", (email,))
+            existing_user = cursor.fetchone()
+
+            if existing_user:
+                cursor.close()
+                conn.close()
+                return render_template('LHK/signup.html', error="이미 등록된 이메일입니다.")
+            
+            hashed_pw = generate_password_hash(password)
+            cursor.execute("""
+                           INSERT INTO members (email, password, nickname, grade, points, can_message)
+                           VALUES (%s, %s, %s, %s, %s, %s)
+                           """, (email, hashed_pw, nickname, '일반', 0, 1))
+            conn.commit()
+
+            cursor.close()
+            conn.close()
+
+            return redirect(url_for('auth.login')) # 회원가입 후 로그인 페이지로 이동
+        return render_template('LHK/signup.html')
+    
+    @main_bp.route('/main')
+    def forcing_main():
+        return render_template('common/main.html')
     #@...
     
