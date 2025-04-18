@@ -3,41 +3,108 @@
 {% block title %}날씨영향 분석{% endblock %}
 
 {% block content %}
-    <h6>날씨영향 분석내용입니다</h6>
-    <form method="POST" action="{{ url_for('main.weather') }}">
-        <label for="gu">자치구 선택:</label>
-        <select name="gu" id="gu">
+    {% if selected_gu %}
+        <h3 class="mb-3 text-dark-emphasis">
+            <span class="text-primary fw-semibold">{{ selected_gu or '선택된 자치구 없음' }}의 날씨영향 분석내용입니다.</h3>
+        </h3>
+    {% else %}
+        <h5 class="mb-3 text-muted">
+            ⚠️ 자치구를 선택해주세요.
+        </h5>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('main.weather') }}" style="margin-bottom: 20px;">
+        <label for="gu" style="font-weight: blod; margin-right: 10px;">자치구 선택:</label>
+        <select name="gu" id="gu" style="padding: 5px 10px; font-size: 14px;">
             {% for gu in gu_list %}
                 <option value="{{ gu }}" {% if gu == selected_gu %} selected {% endif %}>{{ gu }}</option>
             {% endfor %}
         </select>
-        {% if selected_gu %}
-            <button type="submit" disabled>분석하기</button> 
-        {% else %}
-            <button type="submit">분석하기</button>
-        {% endif %}
+        <button type="submit"
+                id="submit-btn"
+                style="padding: 5px 10px;
+                       background-color: {% if selected_gu %} #ccc {% else %} #007BFF {% endif %};
+                       color: white; border: none;
+                       cursor: {% if selected_gu %} not-allowed {% else %} pointer {% endif %};"
+                {% if selected_gu %} disabled {% endif %}>
+            분석하기
+        </button>
     </form>
 
     {% if plot_img %}
-    <img src = 'data:image/png;base64,{{ plot_img }}'>
+    <div style="margin: 30px 0; text-align: center;">
+        <img src = 'data:image/png;base64,{{ plot_img }}' style="max-width: 90%; border: 1px solid #ccc; box-shadow: 2px 2px 6px rgba(0,0,0,0.1);">
+    </div>
+    {% endif %}
+
+    {% if p_values %}
+    <hr style="margin: 40px 0;">
+    <h4 style="color: #333; margin-bottom: 15px;"> 📊 T-test 검정을 통한 p-value 분석 결과 </h4>
+    <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 14px;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="border: 1px solid #ccc; padding: 8px;">구분</th>
+                <th style="border: 1px solid #ccc; padding: 8px;">p-value</th>
+                <th style="border: 1px solid #ccc; padding: 8px;">영향 여부</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 8px;">버스 승차</td>
+                <td style="border: 1px solid #ccc; padding: 8px;">{{ p_values.bus_boarding }}</td>
+                <td style="border: 1px solid #ccc; padding: 8px; color: {{ 'red' if p_values.bus_boarding < 0.05 else '#666' }};" >
+                    {{ '비의 영향을 받음' if p_values.bus_boarding < 0.05 else '비의 영향을 받지 않음'}}
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 8px;">버스 하차</td>
+                <td style="border: 1px solid #ccc; padding: 8px;">{{ p_values.bus_alighting }}</td>
+                <td style="border: 1px solid #ccc; padding: 8px; color: {{ 'red' if p_values.bus_alighting < 0.05 else '#666' }};">
+                    {{ '비의 영향을 받음' if p_values.bus_alighting < 0.05 else '비의 영향을 받지 않음' }}
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 8px;">지하철 승차</td>
+                <td style="border: 1px solid #ccc; padding: 8px;">{{ p_values.subway_boarding }}</td>
+                <td style="border: 1px solid #ccc; padding: 8px; color: {{ 'red' if p_values.subway_boarding < 0.05 else '#666' }};">
+                    {{ '비의 영향을 받음' if p_values.subway_boarding < 0.05 else '비의 영향을 받지 않음'}}
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 8px;">지하철 하차</td>
+                <td style="border: 1px solid #ccc; padding: 8px;">{{ p_values.subway_alighting }}</td>
+                <td style="border: 1px solid #ccc; padding: 8px; color: {{ 'red' if p_values.subway_alighting < 0.05 else '#666' }};">
+                    {{ '비의 영향을 받음' if p_values.subway_alighting < 0.05 else '비의 영향을 받지 않음'}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
     {% endif %}
 
     <script>
         const guSelect = document.getElementById("gu");
-        const submitBtn = document.querySelector("button[type='submit']");
-        const initialGu = "{{ selected_gu or '' }}";
+        const submitBtn = document.querySelector("#submit-btn");
+        const initialGu = "{{ selected_gu or '' }}"; //서버에서 받은 초기 선택된 구
     
         guSelect.addEventListener("change", () => {
-            if (guSelect.value === initialGu) {
+            const currentGu = guSelect.value;
+
+            if (currentGu === initialGu || guSelect.value === "") {
                 submitBtn.disabled = true;
+                submitBtn.style.backgroundColor = "#ccc";
+                submitBtn.style.cursor = "not-allowed";
             } else {
                 submitBtn.disabled = false;
+                submitBtn.style.backgroundColor = "#007BFF";
+                submitBtn.style.cursor = "pointer";
             }
         });
     
         // 페이지 로딩 시 초기 상태 반영
-        if (guSelect.value === initialGu && initialGu !== '') {
+        if (guSelect.value === initialGu || guSelect.value === "") {
             submitBtn.disabled = true;
+            submitBtn.style.backgroundColor = "#ccc";
+            submitBtn.style.cursor = "not-allowed";
         }
     </script>
 {% endblock %}

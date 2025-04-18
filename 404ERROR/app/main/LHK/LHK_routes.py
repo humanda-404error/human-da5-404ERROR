@@ -11,6 +11,10 @@ import base64
 from datetime import datetime
 import requests
 from xml.etree import ElementTree
+from scipy.stats import ttest_ind
+import seaborn as sns
+
+all_holidays = None
 
 # 공휴일 가져오기
 def get_holidays_from_api(year):
@@ -51,11 +55,20 @@ def register_LHK_routes(main_bp):
     @main_bp.route('/weather', methods = ['GET', 'POST'])
     def weather():
 
+        global all_holidays
+
         gu_list = None
         plot_img = None
         selected_gu = None
 
-        # 구목록 만들어 넘겨주기
+        # 공휴일 수집
+        if all_holidays is None:
+            print("공휴일 수집")
+            all_holidays = pd.concat([get_holidays_from_api(y) for y in range(2020, 2025)], ignore_index=True)
+            # print("✅ all_holidays.head():", all_holidays.head())
+            # print("📦 컬럼:", all_holidays.columns)
+
+        # 구 목록 만들어 넘겨주기
         if not gu_list:
             gu_list = get_gu_list()
 
@@ -64,11 +77,6 @@ def register_LHK_routes(main_bp):
 
         elif request.method == 'POST':
             set_gu = request.form['gu']
-
-            # 공휴일 수집
-            all_holidays = pd.concat([get_holidays_from_api(y) for y in range(2020, 2025)], ignore_index=True)
-            # print("✅ all_holidays.head():", all_holidays.head())
-            # print("📦 컬럼:", all_holidays.columns)
 
             # DB 함수 호출을 통한 DB 사용 준비
             conn = get_db_connection()
@@ -122,6 +130,10 @@ def register_LHK_routes(main_bp):
             def calc_diff(before, after):
                 return [(after[i] - before[i]) / (after[i] + before[i]) for i in range(len(before))]
             
+            # 절대값 계산
+            def calc_absolute_diff(before, after):
+                return [abs(after[i] - before[i]) for i in range(len(before))]
+
             # 각각 계산
             bus_boarding_no_rain = [mean_boarding(wknd['no_rain'], '버스'), mean_boarding(wkd['no_rain'], '버스')]
             bus_boarding_rain = [mean_boarding(wknd['rain'], '버스'), mean_boarding(wkd['rain'], '버스')]
@@ -141,12 +153,52 @@ def register_LHK_routes(main_bp):
             subway_boarding_diff = calc_diff(subway_boarding_no_rain, subway_boarding_rain)
             subway_alighting_diff = calc_diff(subway_alighting_no_rain, subway_alighting_rain)
 
-            # 시각화
+            # 절대값 계산
+            bus_boarding_abs_diff = calc_absolute_diff(bus_boarding_no_rain, bus_boarding_rain)
+            bus_alighting_abs_diff = calc_absolute_diff(bus_alighting_no_rain, bus_alighting_rain)
+            subway_boarding_abs_diff = calc_absolute_diff(subway_boarding_no_rain, subway_boarding_rain)
+            subway_alighting_abs_diff = calc_absolute_diff(subway_alighting_no_rain, subway_alighting_rain)
+
+            # T-test 버스 승차
+            t_stat_bus_boarding, p_val_bus_boarding = ttest_ind(
+                wknd['rain']['승차총승객수_버스'].dropna(),
+                wknd['no_rain']['승차총승객수_버스'].dropna(),
+                equal_var = False
+            )
+
+            # T-test 버스 하차
+            t_stat_bus_alighting, p_val_bus_alighting = ttest_ind(
+                wknd['rain']['하차총승객수_버스'].dropna(),
+                wknd['no_rain']['하차총승객수_버스'].dropna(),
+                equal_var = False
+            )
+
+            # T-test 지하철 승차
+            t_stat_subway_boarding, p_val_subway_boarding = ttest_ind(
+                wknd['rain']['승차총승객수_지하철'].dropna(),
+                wknd['no_rain']['승차총승객수_지하철'].dropna(),
+                equal_var = False
+            )
+
+            # T-test 지하철 하차
+            t_stat_subway_alighting, p_val_subway_alighting = ttest_ind(
+                wknd['rain']['하차총승객수_지하철'].dropna(),
+                wknd['no_rain']['하차총승객수_지하철'].dropna(),
+                equal_var = False
+            )
+
+            p_values = {
+                'bus_boarding' : round(p_val_bus_boarding, 4),
+                'bus_alighting' : round(p_val_bus_alighting, 4),
+                'subway_boarding' : round(p_val_subway_boarding, 4),
+                'subway_alighting' : round(p_val_subway_alighting, 4)
+            }
+
+            ####### 시각화 ######
             plt.rcParams['font.family'] = 'Malgun Gothic'
             plt.rcParams['axes.unicode_minus'] = False
             fig, ax = plt.subplots(2, 2, figsize=(9,7))
-            labels = ['주말', '평일']
-            x = range(len(labels))
+            x = range(2)
 
             diffs = (
                 bus_boarding_diff +
@@ -154,8 +206,14 @@ def register_LHK_routes(main_bp):
                 subway_boarding_diff +
                 subway_alighting_diff
             )
-            y_min = min(diffs) - 0.005
-            y_max = max(diffs) + 0.005
+            y_min = min(diffs)
+            y_max = max(diffs)
+
+            if y_max <= 0:
+                y_max = 0.001 # 양수 여유 공간을 추가
+            
+            y_min -= 0.002
+            y_max += 0.002
 
             for v in diffs:
                 print(type(v), v)
@@ -165,7 +223,7 @@ def register_LHK_routes(main_bp):
             ax[0,0].set_title('버스 승차 이용량 변화율')
             ax[0,0].axhline(0, color='gray', linestyle='--')
             ax[0,0].set_xticks(x)
-            ax[0,0].set_xticklabels(labels)
+            ax[0,0].set_xticklabels([f'주말 ({bus_boarding_abs_diff[0]:,.0f}명)', f'평일 ({bus_boarding_abs_diff[1]:,.0f}명)'])
             ax[0,0].set_ylim(y_min, y_max)
 
             # 버스 - 하차
@@ -173,7 +231,7 @@ def register_LHK_routes(main_bp):
             ax[0,1].set_title('버스 하차 이용량 변화율')
             ax[0,1].axhline(0, color='gray', linestyle='--')
             ax[0,1].set_xticks(x)
-            ax[0,1].set_xticklabels(labels)
+            ax[0,1].set_xticklabels([f'주말 ({bus_alighting_abs_diff[0]:,.0f}명)', f'평일 ({bus_alighting_abs_diff[1]:,.0f}명)'])
             ax[0,1].set_ylim(y_min, y_max)
 
             # 지하철 - 승차
@@ -181,7 +239,7 @@ def register_LHK_routes(main_bp):
             ax[1,0].set_title('지하철 승차 이용량 변화율')
             ax[1,0].axhline(0, color='gray', linestyle='--')
             ax[1,0].set_xticks(x)
-            ax[1,0].set_xticklabels(labels)
+            ax[1,0].set_xticklabels([f'주말 ({subway_boarding_abs_diff[0]:,.0f}명)', f'평일 ({subway_boarding_abs_diff[1]:,.0f}명)'])
             ax[1,0].set_ylim(y_min, y_max)
 
             # 지하철 - 하차
@@ -189,7 +247,7 @@ def register_LHK_routes(main_bp):
             ax[1,1].set_title('지하철 하차 이용량 변화율')
             ax[1,1].axhline(0, color='gray', linestyle='--')
             ax[1,1].set_xticks(x)
-            ax[1,1].set_xticklabels(labels)
+            ax[1,1].set_xticklabels([f'주말 ({subway_alighting_abs_diff[0]:,.0f}명)', f'평일 ({subway_alighting_abs_diff[1]:,.0f}명)'])
             ax[1,1].set_ylim(y_min, y_max)
 
             plt.suptitle(f'{set_gu} - 비 오는 날 대중교통 승하차 감소율', fontsize = 16)
@@ -203,7 +261,7 @@ def register_LHK_routes(main_bp):
             plot_img = base64.b64encode(buf.getvalue()).decode('utf-8')
             buf.close()
 
-            return render_template('LHK/weather.html', plot_img=plot_img, selected_gu=set_gu, gu_list = gu_list)
+            return render_template('LHK/weather.html', plot_img=plot_img, selected_gu=set_gu, gu_list = gu_list, p_values=p_values)
     
     @main_bp.route('/profile_edit')
     def profile_edit():
