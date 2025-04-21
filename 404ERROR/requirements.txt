@@ -10,9 +10,3 @@ beautifulsoup4
 pymysql
 chardet
 mysqlclient
-scipy
-seaborn
-statsmodels
-dash
-plotly
-dataframe-image
