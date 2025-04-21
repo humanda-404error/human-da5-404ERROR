@@ -1,0 +1,48 @@
+/* sidebar 내부 링크 스타일 */
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+}
+
+.sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 부주제(섹션 타이틀) 스타일 */
+.sidebar-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 1rem 0 0.5rem;
+    padding: 0.3rem 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    color: #ffeb3b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 메인 콘텐츠 시작 위치 */
+.main-content {
+    margin-left: 250px;
+}
+
+/* 콘텐츠 박스 스타일 */
+.main-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    min-height: 100vh;
+}
+
+/* 팀 이름 상단 스타일 */
+.team-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    color: #ffc107;
+}

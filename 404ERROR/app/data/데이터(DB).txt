@@ -1,0 +1,6 @@
+DB_table		FILENAME		csv_to_DB
+population	SHS_population.csv	dataToDB.py
+weather		SHS_weather.csv		dataToDB.py
+bus		LHK_bus.csv		dataToDB.py
+train		JSC_train.csv		dataToDB.py
+	

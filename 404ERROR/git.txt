@@ -1,0 +1,89 @@
+첫 push 작업
+git commit -m " FILENAME "
+git remote add origin " http://REPO.git"
+git branch -M main
+git push -f origin main
+
+branch 작업
+git pull origin main
+git checkout -b NAME
+"수정작업"
+git add " FILENAME "
+git commit -m "comment"
+git push origin NAME
+
+그외
+git rev-list --objects --all | grep 'SHS.zip\|BUS_STATION'		-git rev-list --objects --all | grep 'SHS.zip\|BUS_STATION'
+이걸로 추적 중인 파일 이름을 확인할 수 있어.
+git rm -r --cached .
+git push --set-upstream origin main		-main 브랜치가 원격(origin)과 연결
+
+초기화
+rm -rf .git 
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/your-username/your-repo.git
+git push -u origin main
+
+팀원작업순서
+
+1. 저장소 클론작업
+git clone https://github.com/팀장아이디/저장소이름.git
+cd 저장소이름
+
+2. 본인 작업 브랜치 생성
+git checkout -b feature/작업이름
+
+3. 작업 & 커밋
+git add 파일명
+git commit -m "ex)로그인 기능 구현"
+
+4. git push origin feature/작업이름
+
+팀장작업순서
+
+	GitHub에서 Pull Request(PR) 생성 (팀원이 or 팀장이)
+
+	코드 리뷰 & 테스트
+
+	이상 없으면 main에 머지
+
+	버전 통합용 브랜치(v1 등) 생성 및 통합
+
+git checkout -b v1
+git merge main
+git push origin v1
+
+main            ← 안정된 최신 개발 브랜치
+│
+├── feature/jiseon-login
+├── feature/junghwan-subwaydata
+│
+└── v1          ← 통합 버전 (팀장이 머지해서 만든 릴리즈)
+
+git fetch origin
+git checkout feature/다른사람브랜치
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

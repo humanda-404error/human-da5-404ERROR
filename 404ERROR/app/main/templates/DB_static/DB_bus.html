@@ -1,0 +1,47 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Bus Data</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>일시</th>
+                <th>자치구</th>
+                <th>승차총승객수</th>
+                <th>하차총승객수</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bus in buses.items %}
+            <tr>
+                <td>{{ bus.id }}</td>
+                <td>{{ bus.date }}</td>
+                <td>{{ bus.district }}</td>
+                <td>{{ bus.total_boarding_passengers }}</td>
+                <td>{{ bus.total_dropping_passengers }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if buses.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.db_bus', page=buses.prev_num) }}">이전</a>
+            </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ buses.page }} of {{ buses.pages }}</span>
+            </li>
+            {% if buses.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.db_bus', page=buses.next_num) }}">다음</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

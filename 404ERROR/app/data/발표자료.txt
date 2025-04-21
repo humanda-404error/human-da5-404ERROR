@@ -1,0 +1,232 @@
+****프로젝트계획 (주제: 날씨에 대해 자치구별로 대중교통사이의 관계분석 )
+순서	내용							마감일
+1.	NAME_주제.csv - make					2025-04-11
+		일시	자치구	이용량
+
+2.	NAME_주제를 만든 원본 data파일
+3.	DB저장							2025-04-14
+		SHS_population.csv, SHS_wheather.csv, JSC_train.csv, LHK_bus.csv
+
+4.	DB에 저장된 data들을 어떻게 분석할지				2025-04-14	50%
+5.	UI계획							2025-04-15
+6.	UI에 넣을 기능 분석					2025-04-15
+7.	분석에서 나온 데이터분석 코딩				2025-04-16
+8.	Web에 각 주제에 맞는 data를 보여주기 위한 기능 코딩		2025-04-17
+9.	Web코딩							2025-04-21
+10.	QA							2025-04-22
+
+
+
+소설을-> 코딩 -> 자료들은 ( 함수가 내장되어있음 ) 코드가 몇줄 안됨
+분석 개인적 과제
+
+--> python파일, 결과 데이터셋 
+
+
+<--------UI--------->
+
+--> 맨 마지막(web에 띄우는작업)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+****데이터사용정보(원본)
+NAME	FILENAME				SOURCE
+소형섭	LOCAL_PEOPLE_GU_2020			서울 열린데이터광장
+소형섭	SURFACE_ASOS_108_DAY_2024_2024_2025	기상청 기상자료개방포털
+소형섭	서울시_자치구_중심점_2017			공공데이터포털
+이훈기	BUS_STATION_BOARDING_MONTH_202001	서울 열린데이터광장
+정상철	CARD_SUBWAY_MONTH_2020		공공데이터포털,  서울 열린데이터광장	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+****데이터사용정보(정제)
+NAME	FILENAME		convert			
+소형섭	SHS_population.csv	SHS_POP.py
+소형섭	SHS_weather.csv		SHS_WEA.py
+이훈기	LHK_train.csv(**)		LHK_BUS.py
+정상철	JSC_bus.csv(**)		JSC_TRAIN.ipynb
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+****인코딩 형식 통합('utf-8-sig')
+data_encoding.py
+
+****데이터(DB)
+DB_table		FILENAME		csv_to_DB
+population	SHS_population.csv	dataToDB.py
+weather		SHS_weather.csv		dataToDB.py
+bus		LHK_bus.csv		dataToDB.py
+train		JSC_train.csv		dataToDB.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+****전처리
+데이터의 집합은 "일시 + 시간대별" 기준
+일시 + 자치구 JOIN작업을 통해 가설
+기본으로 제공되는 피어슨 상관계수(corr)를 구해서 어떤 변수끼리 얼마나 관계있는지 계산
+숫자 예측이므로 회귀(regression)문제
+	1차적으로 선형회귀 고민
+	2차적으로 랜덤포레스트, XGBoost 고려
+
+현재 고민한건 날씨와 각 테이블간의 상관관계 / 날씨가 메인데이터
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
