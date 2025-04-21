@@ -1,7 +1,208 @@
-{% extends '../common/base.html' %}
+{% extends 'common/base.html' %}
 
 {% block title %}비교 분석{% endblock %}
 
 {% block content %}
-    <h2>비교 분석 내용입니다</h2>
+
+<div class="container">
+  <h2>연도별 교통·날씨·인구 분석</h2>
+
+  <!-- 데이터 보기 폼 -->
+  <form method="GET" action="/compare" onsubmit="return validateDateRange()">
+    <p><strong>2020.01.01 ~ 2024.12.31 까지 선택 가능합니다.</strong></p>
+
+    <label for="start_date">시작일:</label>
+    <input type="date" min="2020-01-01" max="2024-12-31" 
+           id="start_date" name="start_date" value="{{ start_date or '' }}" required>
+  
+    <label for="end_date">종료일:</label>
+    <input type="date" min="2020-01-01" max="2024-12-31" 
+           id="end_date" name="end_date" value="{{ end_date or '' }}" required>
+
+    <button type="submit">데이터 보기</button>
+  </form>
+
+  <!-- 데이터 분석 버튼 -->
+  <form method="GET" action="/compare">
+    <button type="button" onclick="showAnalysisOptions()" class="btn btn-primary" style="margin-top:10px;">데이터 분석</button>
+
+    <!-- 모달에서 선택한 값들을 hidden input으로 -->
+    <input type="hidden" name="method" id="hidden-method">
+    <input type="hidden" name="dependent" id="hidden-dependent">
+    <input type="hidden" name="cov" id="hidden-cov">
+    <input type="hidden" name="dataset" id="hidden-dataset">
+
+    <div class="mt-3">
+      <button type="submit" class="btn btn-success" id="finalSubmit" style="display:none;">분석 시작</button>
+    </div>
+  </form>
+
+  <div class="graphs" style="margin-top:20px;">
+    <h4>날씨 그래프</h4>
+    <img src="{{ url_for('static', filename='img/SHS/weather_plot.png') }}" alt="날씨 그래프" style="max-width:100%;">
+
+    <h4>지하철 이용량</h4>
+    <img src="{{ url_for('static', filename='img/SHS/subway_plot.png') }}" alt="지하철 그래프" style="max-width:100%;">
+
+    <h4>버스 이용량</h4>
+    <img src="{{ url_for('static', filename='img/SHS/bus_plot.png') }}" alt="버스 그래프" style="max-width:100%;">
+
+    <h4>생활 인구</h4>
+    <img src="{{ url_for('static', filename='img/SHS/pop_plot.png') }}" alt="인구 그래프" style="max-width:100%;">
+  </div>
+
+  {% if analysis_result %}
+  <div id="analysis-result" style="margin-top: 40px;">
+    <h4>분석 결과</h4>
+    <p><strong>분석 조건:</strong> {{ analysis_result.conditions | join(', ') }}</p>
+
+    {% if analysis_result.result_imgs %}
+      {% for img_path in analysis_result.result_imgs %}
+        <img src="{{ url_for('static', filename=img_path) }}" alt="분석 그래프" style="max-width:100%; margin-bottom:20px;">
+      {% endfor %}
+    {% endif %}
+
+    <div id="analysis-details">
+      {{ analysis_result.result_html | safe }}
+    </div>
+
+    <div class="mt-3">
+      {% if session.grade in ['VIP', '관리자'] %}
+      <a href="{{ url_for('main.compare', 
+                          start_date=start_date, 
+                          end_date=end_date, 
+                          method=analysis_result.method, 
+                          dataset=analysis_result.conditions, 
+                          advanced=1) }}" 
+         class="btn btn-success">[추가분석]</a>
+        <span class="badge bg-info">VIP 이상 이용 가능</span>
+      {% else %}
+        <button class="btn btn-outline-danger" onclick="alert('VIP 등급 이상만 가능합니다')">[추가분석]</button>
+      {% endif %}
+    </div>
+    {% if advanced %}
+    <div class="mt-4">
+      <h4>추가 분석 결과</h4>
+      {% for img in barplot_imgs %}
+        <img src="{{ url_for('static', filename=img) }}" style="max-width:100%; margin-bottom:15px;">
+      {% endfor %}
+      {% for result in tukey_result %}
+        {{ result | safe }}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+
+<!-- 분석 기법 선택 모달 -->
+<div id="analysisModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:white; padding:20px; border:1px solid #ccc; box-shadow:0 0 10px rgba(0,0,0,0.2); z-index:9999;">
+  <h4>세부 분석 선택</h4>
+
+  <label for="analysis-method">검정 기법:</label>
+  <select id="analysis-method" required>
+    <option value="">-- 선택 --</option>
+    <option value="ANOVA">ANOVA</option>
+    <option value="ANCOVA">ANCOVA</option>
+    <option value="MANCOVA">MANOVA</option>
+  </select>
+
+  <br><br>
+  <div id="general-options" style="display:none;">
+    <p><strong>분석 대상:</strong></p>
+    <label><input type="checkbox" name="dataset" value="지하철"> 지하철</label>
+    <label><input type="checkbox" name="dataset" value="버스"> 버스</label>
+    <label><input type="checkbox" name="dataset" value="인구"> 인구</label>
+    <label><input type="checkbox" name="dataset" value="날씨"> 날씨</label>
+  </div>
+
+  <div id="advanced-options" style="display:none; margin-top:10px;">
+    <p><strong>종속 변수:</strong></p>
+    <label><input type="checkbox" name="dependent" value="지하철"> 지하철</label>
+    <label><input type="checkbox" name="dependent" value="버스"> 버스</label>
+    <label><input type="checkbox" name="dependent" value="인구"> 인구</label>
+
+    <p><strong>공변량 (독립 변수):</strong></p>
+    <label><input type="checkbox" name="cov" value="지하철"> 지하철</label>
+    <label><input type="checkbox" name="cov" value="버스"> 버스</label>
+    <label><input type="checkbox" name="cov" value="인구"> 인구</label>
+    <label><input type="checkbox" name="cov" value="온도"> 온도</label>
+    <label><input type="checkbox" name="cov" value="강수량"> 강수량</label>
+  </div>
+
+  <br>
+  <button onclick="submitAnalysis()" class="btn btn-success">확인</button>
+  <button onclick="closeModal()" class="btn btn-secondary">취소</button>
+</div>
+
+<script>
+  document.getElementById("analysis-method").addEventListener("change", function () {
+    const selected = this.value;
+    const general = document.getElementById("general-options");
+    const advanced = document.getElementById("advanced-options");
+
+    if (["ANOVA", "Regression", "Correlation"].includes(selected)) {
+      general.style.display = "block";
+      advanced.style.display = "none";
+    } else if (["MANOVA", "ANCOVA", "MixedEffects"].includes(selected)) {
+      general.style.display = "none";
+      advanced.style.display = "block";
+    } else {
+      general.style.display = "none";
+      advanced.style.display = "none";
+    }
+  });
+
+  document.querySelectorAll('input[name="dependent"]').forEach(dep => {
+    dep.addEventListener('change', function () {
+      const value = this.value;
+      const covariateCheckbox = document.querySelector(`input[name="cov"][value="${value}"]`);
+
+      if (this.checked) {
+        covariateCheckbox.checked = false;
+        covariateCheckbox.disabled = true;
+      } else {
+        covariateCheckbox.disabled = false;
+      }
+    });
+  });
+
+  function getSelectedValues(name) {
+    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
+  }
+
+  function submitAnalysis() {
+    const method = document.getElementById("analysis-method").value;
+    const dependentVars = getSelectedValues("dependent");
+    const covariates = getSelectedValues("cov");
+    const datasetVars = getSelectedValues("dataset");
+
+    document.getElementById("hidden-method").value = method;
+    document.getElementById("hidden-dependent").value = dependentVars.join(',');
+    document.getElementById("hidden-cov").value = covariates.join(',');
+    document.getElementById("hidden-dataset").value = datasetVars.join(',');
+
+    document.getElementById("finalSubmit").click();
+    closeModal();
+  }
+
+  function validateDateRange() {
+    const start = document.getElementById("start_date").value;
+    const end = document.getElementById("end_date").value;
+    if (start && end && start > end) {
+      alert("종료일은 시작일보다 같거나 이후여야 합니다.");
+      return false;
+    }
+    return true;
+  }
+
+  function showAnalysisOptions() {
+    document.getElementById("analysisModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("analysisModal").style.display = "none";
+  }
+</script>
+
 {% endblock %}

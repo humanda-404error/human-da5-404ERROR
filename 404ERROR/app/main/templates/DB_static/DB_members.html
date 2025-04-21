@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>이름</th>
+                <th>닉네임</th>
                 <th>이메일</th>
                 <!-- 필요한 필드 추가 -->
             </tr>
@@ -16,7 +16,7 @@
             {% for member in members %}
             <tr>
                 <td>{{ member.id }}</td>
-                <td>{{ member.name }}</td>
+                <td>{{ member.nickname }}</td>
                 <td>{{ member.email }}</td>
             </tr>
             {% endfor %}
