@@ -1,7 +1,42 @@
 {% extends 'common/base.html' %}
-
-{% block title %}대시보드{% endblock %}
+{% block title %}서울시 자치구 대시보드{% endblock %}
 
 {% block content %}
-    <h2>대시보드 내용입니다</h2>
+<h2>서울시 자치구 대시보드</h2>
+
+<style>
+  .map-container svg {
+    width: 100%;
+    max-width: 800px; /* 너비 조절 */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  svg path {
+    fill: #A5D8FF;
+    stroke: #1E3A8A;
+    stroke-width: 1;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  svg path:hover {
+    transform: translateY(-5px);
+    fill: #339af0;
+  }
+
+  svg text {
+    fill: black;
+    font-size: 10px;
+    font-family: "Malgun Gothic";
+    pointer-events: none;
+  }
+</style>
+
+{%}
+<div class="map-container">
+  {{ svg|safe }}
+</div>
+
 {% endblock %}

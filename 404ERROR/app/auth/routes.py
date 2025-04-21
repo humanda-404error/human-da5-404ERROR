@@ -25,7 +25,6 @@ def login():
         # admin 계정 로그인 처리 (직접 입력된 관리자 계정)
         if email == 'admin' and password == '1234':
             session['user_id'] = 1  # 실제 DB상의 admin id
-            session['email'] = 'admin'
             session['nickname'] = '관리자'
             session['grade'] = '관리자'
             session['points'] = 99999
@@ -46,7 +45,6 @@ def login():
         # 비밀번호 확인 후 로그인 처리
         if user and check_password_hash(user['password'], password):  # 비밀번호 확인
             session['user_id'] = user['id']
-            session['email'] = user['email']
             session['grade'] = user['grade']
             session['points'] = user['points']
             session['nickname'] = user['nickname']
@@ -64,15 +62,3 @@ def logout():
     session.pop('user_id', None)  # 세션에서 사용자 정보 제거
     session.clear()
     return redirect(url_for('auth.login'))  # 로그인 페이지로 리디렉션
-
-# @auth_bp.route('/login', methods=['GET', 'POST'])
-# def register():
-#     return render_template('LHK/register.html')
-
-# @auth_bp.route('/find_account', methods=['GET', 'POST'])
-# def register():
-#     return render_template('LHK/register.html')
-
-# @auth_bp.route('/find_account')
-# def find_account():
-#     return render_template('LHK/find_account.html')  # 템플릿 경로는 실제 파일 위치에 맞게 조정

@@ -307,3 +307,5 @@ def register_LHK_routes(main_bp):
     @main_bp.route('/main')
     def forcing_main():
         return render_template('common/main.html')
+    #@...
+    
