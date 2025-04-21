@@ -25,10 +25,7 @@ def login():
         # admin 계정 로그인 처리 (직접 입력된 관리자 계정)
         if email == 'admin' and password == '1234':
             session['user_id'] = 1  # 실제 DB상의 admin id
-<<<<<<< HEAD
-=======
             session['email'] = 'admin'
->>>>>>> 7f80b9930df49e37c885411b9cd17e7878f31fb7
             session['nickname'] = '관리자'
             session['grade'] = '관리자'
             session['points'] = 99999
@@ -49,10 +46,7 @@ def login():
         # 비밀번호 확인 후 로그인 처리
         if user and check_password_hash(user['password'], password):  # 비밀번호 확인
             session['user_id'] = user['id']
-<<<<<<< HEAD
-=======
             session['email'] = user['email']
->>>>>>> 7f80b9930df49e37c885411b9cd17e7878f31fb7
             session['grade'] = user['grade']
             session['points'] = user['points']
             session['nickname'] = user['nickname']
@@ -70,8 +64,6 @@ def logout():
     session.pop('user_id', None)  # 세션에서 사용자 정보 제거
     session.clear()
     return redirect(url_for('auth.login'))  # 로그인 페이지로 리디렉션
-<<<<<<< HEAD
-=======
 
 # @auth_bp.route('/login', methods=['GET', 'POST'])
 # def register():
@@ -84,4 +76,3 @@ def logout():
 # @auth_bp.route('/find_account')
 # def find_account():
 #     return render_template('LHK/find_account.html')  # 템플릿 경로는 실제 파일 위치에 맞게 조정
->>>>>>> 7f80b9930df49e37c885411b9cd17e7878f31fb7

@@ -12,10 +12,7 @@ chardet
 mysqlclient
 scipy
 seaborn
-<<<<<<< HEAD
-=======
 statsmodels
 dash
 plotly
 dataframe-image
->>>>>>> 7f80b9930df49e37c885411b9cd17e7878f31fb7

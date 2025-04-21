@@ -3,18 +3,6 @@
 {% block title %}비교 분석{% endblock %}
 
 {% block content %}
-<<<<<<< HEAD
-<div class="container">
-  <h2>🚇 코로나 시기별 교통량 변화 분석</h2>
-  <p><strong>ANOVA p-value:</strong> {{ p_val }}  
-     {% if p_val < 0.05 %}<span style="color:green;">→ 유의미한 차이 있음</span>
-     {% else %}<span style="color:red;">→ 통계적으로 유의미하지 않음</span>
-     {% endif %}
-  </p>
-  <img src="{{ plot_url }}" alt="시기별 교통량 그래프" style="max-width:100%;">
-</div>
-{% endblock %}
-=======
 
 <div class="container">
   <h2>연도별 교통·날씨·인구 분석</h2>
@@ -218,4 +206,3 @@
 </script>
 
 {% endblock %}
->>>>>>> 7f80b9930df49e37c885411b9cd17e7878f31fb7
