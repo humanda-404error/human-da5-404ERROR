@@ -10,7 +10,7 @@ from app.models import Member, Notice, Update, Weather, Population, Train, Bus  
 def create_app():
     app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'main', 'templates'))
     app.config['SECRET_KEY'] = secrets.token_hex(16) #'my_secret_key_404' #secrets.token_hex(16)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flaskuser:1234@localhost:3306/prj_404error'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://flaskuser:1234@192.168.0.62:3306/prj_404error'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
 #    app.config['TEMPLATES_AUTO_RELOAD'] = True
