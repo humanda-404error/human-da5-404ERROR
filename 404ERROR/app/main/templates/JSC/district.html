@@ -1,0 +1,32 @@
+{% extends 'common/base.html' %}
+
+{% block title %}자치구별 분석{% endblock %}
+
+{% block content %}
+<h2>자치구별 분석</h2>
+
+<form method="POST" action="{{ url_for('main.district') }}">
+    <label for="selected_date">날짜 선택:</label>
+    <input type="date" id="selected_date" name="selected_date" min="2020-01-01" max="2024-12-31" required>
+    <button type="submit">분석하기</button>
+</form>
+
+{% if graphs %}
+    <div>
+        <h3>1. 자치구별 대중교통 이용 비율 ({{ selected_date }})</h3>
+        <img src="data:image/png;base64,{{ graphs.date_graph }}">
+
+        <h3>2. 자치구별 여성 비율 대비 교통 이용</h3>
+        <img src="data:image/png;base64,{{ graphs.female_ratio_gu }}">
+
+        <h3>3. 여성 연령대별 교통 이용</h3>
+        <img src="data:image/png;base64,{{ graphs.female_age }}">
+
+        <h3>4. 자치구별 남성 비율 대비 교통 이용</h3>
+        <img src="data:image/png;base64,{{ graphs.male_ratio_gu }}">
+
+        <h3>5. 남성 연령대별 교통 이용</h3>
+        <img src="data:image/png;base64,{{ graphs.male_age }}">
+    </div>
+{% endif %}
+{% endblock %}

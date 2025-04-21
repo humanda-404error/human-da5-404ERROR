@@ -1,0 +1,11 @@
+******소형섭
+20250416
+    app/main/commons/common_routes.py
+    app/main/JSC/JSC_routes.py
+    app/main/LHK/LHK_routes.py
+    app/main/SHS/SHS_routes.py 
+    라우트쪽 코드 분리화 작업
+
+******이훈기
+
+******정상철
