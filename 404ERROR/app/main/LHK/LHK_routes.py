@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Blueprint, render_template, session, redirect, url_for, request, send_file
 from app.auth.routes import get_db_connection
 from app.main.blueprint import main_bp
@@ -307,5 +308,21 @@ def register_LHK_routes(main_bp):
     @main_bp.route('/main')
     def forcing_main():
         return render_template('common/main.html')
+=======
+from flask import Blueprint, render_template, session, redirect, url_for
+from app.auth.routes import get_db_connection
+from app.main.blueprint import main_bp
+from app.models import Member, Notice, Update, Weather, Population, Train
+
+def register_LHK_routes(main_bp):
+    @main_bp.route('/weather')
+    def weather():
+        return render_template('LHK/weather.html')
+    
+    @main_bp.route('/profile_edit')
+    def profile_edit():
+        return render_template('LHK/profile_edit.html') 
+    
+>>>>>>> 7f80b9930df49e37c885411b9cd17e7878f31fb7
     #@...
     

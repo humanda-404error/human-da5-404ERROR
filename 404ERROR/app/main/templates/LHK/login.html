@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "LHK/auth_base.html" %}
 
 {% block title %} 로그인 {% endblock %}
@@ -34,3 +35,84 @@
 </div>
 {% endblock %}
 
+=======
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <style>
+        body {
+            background-color: #f3f3fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            border: 5px solid black;
+            padding: 40px;
+            background-color: white;
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-bottom: 20px;
+            border: 2px solid #a1d98e;
+            display: inline-block;
+            padding: 5px 20px;
+        }
+        input[type="text"], input[type="password"] {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 200px;
+            border: 3px solid #ffe800;
+        }
+        .btn {
+            margin: 10px 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        .join-btn {
+            border: 2px solid #a1d98e;
+            background-color: white;
+        }
+        .find-btn {
+            border: 2px solid #3ab2e4;
+            background-color: white;
+        }
+        .main-btn {
+            margin-top: 20px;
+            border: 2px solid #13a04c;
+            padding: 6px 14px;
+            display: inline-block;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>로그인</h2>
+        <form method="POST">
+            <input type="text" name="email" placeholder="id" required>
+            <input type="password" name="password" placeholder="pw" required>
+            <button type="submit" class="btn">로그인</button>
+        </form>
+        <div>
+           <a href="#" class="btn join-btn">회원가입</a>
+            <a href="#" class="btn find-btn">id/pw찾기</a>
+        </div>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        <div>
+            <a href="{{ url_for('main.index') }}" class="main-btn">메인 홈페이지 이동</a>
+        </div>
+    </div>
+</body>
+</html>
+>>>>>>> 7f80b9930df49e37c885411b9cd17e7878f31fb7
