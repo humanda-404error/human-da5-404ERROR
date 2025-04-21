@@ -1,0 +1,6 @@
+<h2>회원 목록</h2>
+<ul>
+  {% for member in members %}
+    <li>{{ member.username }} ({{ member.email }})</li>
+  {% endfor %}
+</ul>

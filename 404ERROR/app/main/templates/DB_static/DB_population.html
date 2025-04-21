@@ -1,0 +1,63 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Population Data</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>일시</th>
+                <th>시간대구분</th>
+                <th>자치구</th>
+                <th>총생활인구수</th>
+                <th>남자미성년자</th>
+                <th>남자청년</th>
+                <th>남자중년</th>
+                <th>남자노년</th>
+                <th>여자미성년자</th>
+                <th>여자청년</th>
+                <th>여자중년</th>
+                <th>여자노년</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for population in populations.items %}
+            <tr>
+                <td>{{ population.id }}</td>
+                <td>{{ population.date }}</td>
+                <td>{{ population.time_segment }}</td>
+                <td>{{ population.district }}</td>
+                <td>{{ population.total_population }}</td>
+                <td>{{ population.male_minors }}</td>
+                <td>{{ population.male_youth }}</td>
+                <td>{{ population.male_middle_age }}</td>
+                <td>{{ population.male_senior }}</td>
+                <td>{{ population.female_minors }}</td>
+                <td>{{ population.female_youth }}</td>
+                <td>{{ population.female_middle_age }}</td>
+                <td>{{ population.female_senior }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if populations.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.db_population', page=populations.prev_num) }}">이전</a>
+            </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ populations.page }} of {{ populations.pages }}</span>
+            </li>
+            {% if populations.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.db_population', page=populations.next_num) }}">다음</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

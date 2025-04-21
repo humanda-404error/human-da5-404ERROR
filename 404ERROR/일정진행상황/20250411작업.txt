@@ -1,0 +1,3 @@
+1. result_pop.csv, 자치구코드.csv를 읽고 result_pop.csv의 자치구코드 한글로변경
+2. DB-> prj-404error 에 table 4개(population, whether, train, bus) 생성
+3. DB에 저장

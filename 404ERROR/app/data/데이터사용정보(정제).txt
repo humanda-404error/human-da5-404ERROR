@@ -1,0 +1,5 @@
+NAME	FILENAME		convert			
+소형섭	SHS_population.csv	SHS_POP.py
+소형섭	SHS_weather.csv		SHS_WEA.py
+이훈기	LHK_BUS.csv(**)		LHK_BUS.py
+정상철	JSC_TRAIN.csv(**)		JSC_TRAIN.ipynb

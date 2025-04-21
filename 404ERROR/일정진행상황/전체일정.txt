@@ -1,0 +1,119 @@
+<전체 일정 진행>
+1.result_주제.csv - make						2025-04-11	100%
+	일시	자치구	이용량
+2.result_주제를 만든 원본 data파일
+3.db저장								2025-04-14	100%
+	result_pop.csv, result_whe.csv, result_train.csv, result_bus.csv
+4.db에 저장된 data들을 어떻게 분석할지				2025-04-14	0~100%
+5.UI계획								2025-04-15	100%
+6.UI에 넣을 기능 분석						2025-04-15	100%
+7.분석에서 나온 데이터분석 코딩					2025-04-16	0%
+8.Web에 각 주제에 맞는 data를 보여주기 위한 기능 코딩			2025-04-17
+9.Web코딩							2025-04-21	2025-04-16 마무리
+10.QA								2025-04-22
+
+목요일발표는
+로컬DB연동
+WEB 코딩
+<데이터분석>금 오전 / 오후에 데이터분석한 자료를 띄어줘야된다
+월 -> 데이터분석자료를 시각화 멋잇게 UI
+화요일은 TEST 및 발표준비 문서 준비
+수요일 발표
+
+
+
+
+<세부 일정 진행>
+1. result_WHE.csv, result_TRAIN.csv, result_POP.csv, result_BUS.csv
+
+-> result.csv 로 기준에 맞게 통합
+
+-> result_day.csv , result_night.csv 
+
+-> csv파일 DB에 넣어서 관리? / 구글 스프레드시트로 저장? -> web 호스팅했을때 문제가없음
+/ aws DB 
+
+2. 데이터 분석 토론
+
+3. UI 토론
+
+4. web기능별 설명
+
+5. db사용?
+------------------------
+<5년도에 해당하는 데이터 = 빅데이터>
+csv -> DB 를 쓰는데-slow 가볍다
+
+join 여부 O X
+
+**if join o
+	각각의 dataset을 분리해서 저장을
+		result_pop.csv-> a tb
+		result_whe.csv-> b tb
+				c tb	column ㅇㅇㅇ
+				d tb
+	비교할때 join작업을 통해서 인사이트를 분석
+
+join a b // fast 무겁다
+
+클라우드db -> 돈이 든다 fast 가벼운데 
+
+else
+	dataset을 하나로 통합하고
+	비교할때 dataset을 전부읽어와서 하나하나 인사이트를 분석
+
+대부분의 실무에서는
+join o
+
+
+<데이터 분석 큰 주제>
+주제	설명
+트렌드 분석	시간 흐름에 따라 변화를 보고 싶다
+주제 간 비교	a, b, c, d 주제끼리 비교하고 싶다
+상관관계 분석	어떤 주제끼리 연관이 있는지 보고 싶다
+이상치 찾기	갑자기 튀는 데이터 포착하고 싶다
+예측	미래 값을 예측하고 싶다
+
+
+
+{% extemds 'base.html' %}
+
+{% block content_block %}
+
+{% endblock %}
+
+분석/
+
+
+
+오전 10:53 2025-04-15
+Web flowchart 코딩
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

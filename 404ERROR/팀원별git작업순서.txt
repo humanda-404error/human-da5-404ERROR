@@ -1,0 +1,128 @@
+****가상환경설정
+conda create -n miniproject python=3.11
+
+****git 초기화
+rm -rf .git 
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/your-username/your-repo.git
+git push -u origin main
+
+****각 팀원 작업순서
+1. 저장소 클론작업
+git clone https://github.com/your-username/your-repo.git
+cd 저장소이름
+
+2. 본인 작업 브랜치 생성
+git checkout -b feature/작업이름
+
+3. 작업 & 커밋
+git add 파일명
+git commit -m "ex)로그인 기능 구현"
+
+4. git push origin feature/작업이름
+
+****대표 작업순서
+	GitHub에서 Pull Request(PR) 생성 (팀원이 or 팀장이)
+
+	코드 리뷰 & 테스트
+
+	이상 없으면 main에 머지
+
+	버전 통합용 브랜치(v1 등) 생성 및 통합
+
+git checkout -b v1
+git merge main
+git push origin v1
+
+main            ← 안정된 최신 개발 브랜치
+│
+├── feature/jiseon-login
+├── feature/junghwan-subwaydata
+│
+└── v1          ← 통합 버전 (팀장이 머지해서 만든 릴리즈)
+
+git fetch origin
+git checkout feature/다른사람브랜치
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+첫 push 작업
+git commit -m " FILENAME "
+git remote add origin " http://REPO.git"
+git branch -M main
+git push -f origin main
+
+branch 작업
+git pull origin main
+git checkout -b NAME
+"수정작업"
+git add " FILENAME "
+git commit -m "comment"
+git push origin NAME
+
+그외
+git rev-list --objects --all | grep 'SHS.zip\|BUS_STATION'		-git rev-list --objects --all | grep 'SHS.zip\|BUS_STATION'
+이걸로 추적 중인 파일 이름을 확인할 수 있어.
+git rm -r --cached .
+git push --set-upstream origin main		-main 브랜치가 원격(origin)과 연결
+---------------------------------------------------------------------------------------------------------------------------------
+팀장
+# main 브랜치로 체크아웃 (만약 아직 main 브랜치라면)
+git checkout main
+
+# v1 브랜치 생성 및 전환
+git checkout -b v1
+
+# v1 브랜치에서 원격 저장소에 푸시
+git push origin v1
+--------------------------------------------------------------------------------------------------------------------------------
+팀원
+# v1 브랜치로 체크아웃
+git checkout v1
+
+# 새 브랜치 만들기
+git checkout -b feature/작업
+
+# 작업 후 변경사항을 커밋하고 푸시
+git add .
+git commit -m "작업 내용"
+git push origin feature/작업
+--------------------------------------------------------------------------------------------------------------------------------
+팀장
+# main 브랜치로 체크아웃
+git checkout main
+
+# v1 브랜치를 main 브랜치에 머지
+git merge v1
+
+# 변경사항을 원격 저장소에 푸시
+git push origin main
+---------------------------------------------------------------------------------------------------------------------------------
+충돌해결
+git add <충돌 해결된 파일>
+git commit -m "Merge conflict 해결"
+git push origin v1
+--------------------------------------------------------------------------------------------------------------------------------
+브랜치 작업
+git branch : 로컬 브랜치 확인
+git branch -r : 원격(깃헙) 브랜치 확인
+git branch -d v1 : 로컬 브랜치 삭제
+git branch -D v1 : 원격 브랜치 삭제
+
+git checkout main : 현재main 브랜치에서 작업중인지 체크
+git pull origin main : 최신 상태로 main브랜치 업데이트
+git checkout -b v1 : 새로운 v1 브랜치 생성 및 체크아웃
+
+git push origin v1 : 원격에 v1 브랜치 푸쉬
+
+get fetch origin : 원격 저장소에서 최신 정보 가져옴
+git checkout v1  : v1 브랜치로 이동
+
+
+
+
+
+
