@@ -1,4 +1,5 @@
 #######################################################
+find . -type d -name "__pycache__" -exec rm -r {} +
 **Prj Setting
 1. pip install -r requirements.txt
 2. execute : python run.py

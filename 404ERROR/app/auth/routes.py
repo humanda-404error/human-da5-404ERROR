@@ -33,7 +33,7 @@ def login():
         
         # 이메일 포맷 검사 (일반 회원의 경우)
         if '@' not in email:
-            return render_template('LHK/login.html', error="Invalid email format!")
+            return render_template('LHK/login.html', error="등록된 사용자가 아닙니다.")
         
         # 일반 회원 로그인 처리
         conn = get_db_connection()
