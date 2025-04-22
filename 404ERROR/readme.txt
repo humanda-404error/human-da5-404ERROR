@@ -9,35 +9,64 @@ find . -type d -name "__pycache__" -exec rm -r {} +
 404ERROR/
 │
 ├── app/
-│   ├── __init__.py       # 앱 생성 함수
-│   ├── main/
-│   │   ├── __init__.py  # main 모듈 초기화
-│   │   ├── routes.py    # URL 라우팅 정의
-│   │   └── templates/
-│   │       └── main/
-│   │           └── index.html  # main 관련 HTML 템플릿
-│   ├── auth/
-│   │   ├── __init__.py  # auth 모듈 초기화
-│   │   ├── routes.py    # 인증 관련 URL 라우팅 정의
-│   │   └── templates/
-│   │       └── auth/
-│   │           └── login.html  # 로그인 페이지 템플릿
-│   ├── models/
-│   │   ├── __init__.py  # 모델 모듈 초기화
-│   │   ├── user.py      # 사용자 관련 데이터 모델
-│   │   └── post.py      # 게시물 관련 데이터 모델
-│   ├── static/
-│   │   ├── css/
-│   │   │   └── style.css  # 스타일 시트
-│   │   ├── js/
-│   │   │   └── script.js  # 자바스크립트 파일
-│   │   └── img/
-│   │       └── logo.png  # 이미지 파일
-│   └── templates/
-│       ├── base.html     # 공통 템플릿
-│       └── includes/
-│           ├── header.html  # 헤더 템플릿
-│           └── footer.html  # 푸터 템플릿
+└── main/
+    ├── __init__.py                  # main 모듈 초기화
+    ├── blueprint.py                 # main Blueprint 등록
+    ├── routes.py                    # 공통 라우팅 처리
+
+    ├── commons/
+    │   └── common_routes.py         # 공통 기능에 대한 라우터
+
+    ├── JSC/
+    │   ├── __init__.py
+    │   ├── JSC_analyze_logic.py     # JSC 데이터 분석 로직
+    │   ├── jSC_routes.py            # JSC 페이지 라우팅
+    │   └── merged_data.csv          # 분석용 데이터 파일
+
+    ├── LHK/
+    │   ├── LHK_routes.py            # LHK 담당 기능 라우팅
+    │   └── test.ipynb               # 실험용 Jupyter 노트북
+
+    ├── SHS/
+    │   ├── SHS_routes.py            # SHS 기능 라우팅
+    │   └── readme.txt               # SHS 전용 설명 파일
+
+    ├── static/                      # main 전용 정적 자원 (이미지, css 등)
+
+    └── templates/
+        ├── common/
+        │   ├── base.html            # 모든 템플릿의 기본 구조
+        │   └── main.html            # 메인 대시보드 템플릿
+
+        ├── DB_static/
+        │   ├── DB_bus.html
+        │   ├── DB_members.html
+        │   ├── DB_population.html
+        │   ├── DB_train.html
+        │   └── DB_weather.html
+
+        ├── JSC/
+        │   ├── dashboard.html
+        │   └── district.html
+
+        ├── LHK/
+        │   ├── auth_base.html
+        │   ├── find_account.html
+        │   ├── login.html
+        │   ├── profile_edit.html
+        │   ├── register.html
+        │   └── weather.html
+
+        ├── SHS/
+        │   ├── chat.html
+        │   ├── compare.html
+        │   └── support.html
+        ├── chart.html
+    ├── chat.html
+    ├── explorer.html
+    ├── outlier.html        
+    ├── profile_edit.html
+    └── support.html        
 │
 ├── config.py             # 앱 설정 파일
 ├── requirements.txt      # 프로젝트 종속성 목록
@@ -46,27 +75,3 @@ find . -type d -name "__pycache__" -exec rm -r {} +
 ######################################################
 
 ######################################################
-**작업해야될 내용**
-@main_bp.route('/db_user_data/<int:user_id>')
-def db_user_data(user_id):
-    # 1. 사용자의 정보 가져오기
-    member = Member.query.get_or_404(user_id)
-    
-    # 2. 사용자의 트레인 데이터 가져오기
-    trains = Train.query.filter_by(district=member.district).all()
-    
-    # 3. 사용자의 날씨 데이터 가져오기
-    weather_data = Weather.query.filter_by(date=member.weather_date).all()
-    
-    # 4. 사용자의 인구 데이터 가져오기
-    population_data = Population.query.filter_by(district=member.district).all()
-    
-    # 데이터 분석 (예: 평균 승차총승객수)
-    avg_boarding_passengers = sum([train.total_boarding_passengers for train in trains]) / len(trains) if len(trains) > 0 else 0
-    
-    return render_template('db_user_data.html', 
-                           member=member, 
-                           trains=trains, 
-                           weather_data=weather_data,
-                           population_data=population_data, 
-                           avg_boarding_passengers=avg_boarding_passengers)

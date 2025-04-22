@@ -7,6 +7,12 @@
     <link href="{{ url_for('static', filename='css/common.css') }}" rel="stylesheet">
 </head>
 
+<script>
+    function alertPending() {
+      alert("이 메뉴는 추후 추가 예정입니다.");
+    }
+</script>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar bg-primary text-white d-flex flex-column" style="width: 250px; height: 100vh; position: fixed; overflow: hidden;">
@@ -19,33 +25,34 @@
             <!-- 데이터 분석 섹션 -->
             <div class="sidebar-section mb-4">
                 <div class="sidebar-title">데이터 분석</div>
-                <a href="{{ url_for('main.dashboard') }}">대시보드</a>
-                <a href="{{ url_for('main.district') }}">자치구별 분석</a>
-                <a href="{{ url_for('main.weather') }}">날씨영향 분석</a>
-                <a href="{{ url_for('main.compare') }}">비교 분석</a>
-                <a href="#">이상치 탐지</a>
-                <a href="#">데이터 탐색</a>
+                    <a href="{{ url_for('main.dashboard') }}">대시보드</a>
+                    <a href="{{ url_for('main.district') }}">자치구별 분석</a>
+                    <a href="{{ url_for('main.weather') }}">날씨영향 분석</a>
+                    <a href="{{ url_for('main.compare') }}">비교 분석</a>
+                    <a href="#" onclick="alertPending()">이상치 탐지</a>
+                    <a href="#" onclick="alertPending()">데이터 탐색</a>
             </div>
 
             <!-- 기타 섹션 -->
             <div class="sidebar-section mb-4">
                 <div class="sidebar-title">기타</div>
-                <a href="#">게시판</a>
-                <a href="#">추가내용</a>
-                {% if logged_in %}
+                    <a href="#" onclick="alertPending()">게시판</a>
+                    <a href="#" onclick="alertPending()">추가내용</a>
+                <!-- {% if logged_in %}
                 <a href="{{ url_for('auth.logout') }}">Logout</a>
-                {% endif %}
+                {% endif %} -->
             </div>
 
             <!-- 게시판 섹션 -->
             <div class="sidebar-section mb-4">
                 <div class="sidebar-title">게시판</div>
-                <a href="{{ url_for('main.members') }}">공지사항</a>
-                <a href="{{ url_for('main.members') }}">자유게시판</a>
-                <a href="{{ url_for('main.members') }}">hot issue</a>
+                    <a href="#" onclick="alertPending()">공지사항</a>
+                    <a href="#" onclick="alertPending()">자유게시판</a>
+                    <a href="#" onclick="alertPending()">hot issue</a>
             </div>
 
             <!-- DB TEST 섹션 -->
+            {% if current_user.grade == '관리자' %}
             <div class="sidebar-section mb-4">
                 <div class="sidebar-title">DB TEST (관리자)</div>
                 <a href="{{ url_for('main.members') }}">DB_members test</a>
@@ -54,6 +61,7 @@
                 <a href="{{ url_for('main.db_weather') }}">DB_weather table</a>
                 <a href="{{ url_for('main.db_population') }}">DB_population table</a>
             </div>
+            {% endif %}
         </div>
     </div>
 
